@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.22)
+project(client)
+add_executable(client)
+aux_source_directory(. sources)
+target_sources(client PUBLIC ${sources})
