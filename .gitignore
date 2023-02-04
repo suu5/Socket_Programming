@@ -1,0 +1,5 @@
+#忽略包含可执行文件和CMake测试文件的build文件夹
+*/build/
+
+/Socket/Client/
+/Socket/Server/

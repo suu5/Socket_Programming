@@ -6,27 +6,27 @@
 #include<sys/socket.h>
 #include<netinet/in.h>
 int main(){
+    //创建监听套接字文件描述符，使用TCP协议
     int serv_sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+    //初始化套接字实体
     struct sockaddr_in serv_addr;
     memset(&serv_addr, 0, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
     serv_addr.sin_port = htons(1234);
-    printf("bind\n");
+
+    //将套接字文件描述符同其实体绑定
     bind(serv_sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
-    printf("listen\n");
-    while(true){
-        listen(serv_sock, 20);
-        struct sockaddr_in clnt_addr;
-        socklen_t clnt_addr_size = sizeof(clnt_addr);
-        printf("accept\n");
-        int clnt_sock = accept(serv_sock, (struct sockaddr *)&clnt_addr, &clnt_addr_size);
-        printf("连接成功\n");
-        char str[] = "Hello World!";
-        printf("write\n");
-        write(clnt_sock, str, sizeof(str));
-        close(clnt_sock);
-    }
+
+    listen(serv_sock, 20);
+    struct sockaddr_in clnt_addr;
+    socklen_t clnt_addr_size = sizeof(clnt_addr);
+    int clnt_sock = accept(serv_sock, (struct sockaddr *)&clnt_addr, &clnt_addr_size);
+    char receive[1024];
+    char str[] = "Hello World!";
+    write(clnt_sock, str, sizeof(str));
+    close(clnt_sock);
     close(serv_sock);
     return 0;
 }
